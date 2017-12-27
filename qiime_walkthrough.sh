@@ -1,5 +1,5 @@
 #! /bin/bash
-source activate qiime2-2017.11
+source activate qiime2-2017.12
 source tab-qiime
 mkdir q2-tutorial
 cd q2-tutorial
