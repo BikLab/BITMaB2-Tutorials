@@ -5,13 +5,6 @@ Here, we will utilize a pipeline called QIIME (v2) to analyze and visualize micr
 [Link to the main QIIME 2 website](https://docs.qiime2.org/2017.12/) (for more tutorials and detailed documentation of the pipeline).
 
 ---
-## Directory structure
-
-Before we begin the pipeline, we want to share a directory structure we use in our lab, and we highly recommend you implement the same or a similar directory structure. Using this structure will not only help you stay organized, but will also help you understand and follow our pipeline with ease. 
-
-![Recommended directory structure for QIIME2](https://www.dropbox.com/s/mqk2plz0d56k224/dir-struc-QIIME-small.png?raw=1)
-
-The numbers in some directory names correspond to the order in which these directories are created during our QIIME 2 pipeline. 
 
 ## What is QIIME 2?
 QIIME 2 is a microbiome analysis pipeline, and it is significantly different from the previous version QIIME 1. Instead of using data files such as FASTA files, QIIME 2 utilizes artifacts. You can think of artifacts as zipped files, and they can be inputs as well as outputs in QIIME 2. Artifacts have the extension `.qza`. 
@@ -45,29 +38,94 @@ The forward and reverse read file names for a single sample might look like `L2S
 `cp -r /data/share/BITMaB-2018/18S_metabarcoding_Project_FranPanama/* .`
 
 
- 
+### To view the help menu for any QIIME 2 method, you can run that particular method followed by `--help` as shown below.
+
+
+**Command:**
+
+```
+qiime tools --help
+
+```
+**Output:**
+
+```
+Usage: qiime tools [OPTIONS] COMMAND [ARGS]...
+
+  Tools for working with QIIME 2 files.
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  export    Export data from a QIIME 2 Artifact or Visualization.
+  extract   Extract a QIIME 2 Artifact or Visualization archive.
+  import    Import data into a new QIIME 2 Artifact.
+  peek      Take a peek at a QIIME 2 Artifact or Visualization.
+  validate  Validate data in a QIIME 2 Artifact.
+  view      View a QIIME 2 Visualization.
+  
+```
+AND, to get more info on the commands associated with a method, run the method along with the desired command as shown below.
+
+**Command:**
+
+```
+qiime tools import --help
+```
+**Output:**
+
+```
+Usage: qiime tools import [OPTIONS]
+
+  Import data to create a new QIIME 2 Artifact. See https://docs.qiime2.org/
+  for usage examples and details on the file types and associated semantic
+  types that can be imported.
+
+Options:
+  --type TEXT                The semantic type of the artifact that will be
+                             created upon importing. Use --show-importable-
+                             types to see what importable semantic types are
+                             available in the current deployment.  [required]
+  --input-path PATH          Path to file or directory that should be
+                             imported.  [required]
+  --output-path PATH         Path where output artifact should be written.
+                             [required]
+  --source-format TEXT       The format of the data to be imported. If not
+                             provided, data must be in the format expected by
+                             the semantic type provided via --type.
+  --show-importable-types    Show the semantic types that can be supplied to
+                             --type to import data into an artifact.
+  --show-importable-formats  Show formats that can be supplied to --source-
+                             format to import data into an artifact.
+  --help                     Show this message and exit. 
+```
  	 
 ## Pipeline Overview
 
 Here is an overview of the general steps of the QIIME pipeline for already demultiplexed reads that we will carry out during the BITMaB workshop (click links to jump to detailed instructions for each step):
 
-#### [Step 1](): Import data and Visualize the artifact
+#### [Step 1](): Importing data, summarize the results, and examing quality of the reads
 
-#### [Step 2](): Pick Operational Taxonomic Units
+#### [Step 2](): Quality controlling sequences and building Feature Table and Feature Data
 
-#### [Step 3](): Identify chimeras and remove chimeric sequences from the OTU table
+#### [Step 3](): Assigning Taxonomy
 
+#### [Step 3](): Building Feature table (aka OTU table)
 
-#### [Step 4](): Align sequences and remove alignment failures from the OTU table
+#### [Step 4](): Summarizing Feature Table and Feature Data
 
-#### [Step 5](): Filter rep set fasta file to match the OTU IDs in your filtered OTU table 
+#### [Step 5](): Generating a phylogenetic tree
+#### [Step 6](): Analyzing Alpha and Beta diversities
 
-#### [Step 6](): Construct a phylogenetic tree
+#### [Step 7](): Assigning Taxonomy
 
-#### [Step 7](): Carry out microbial community analyses to assess alpha- and beta-diversity 
+---
 
+* NOTE: For the purposes of this tutorial, we are running all the analysis in a single directory and using non-descriptive names when assigning output files. However, we highly recommend that you use a directory structure that allows you to keep your files organized and name your files and directories as descriptively as possible. We have shared our own directory structure and naming conventions at the end of this tutorial.
 
-## Step 1:
+## Step 1 - Importing data, summarize the results, and examing quality of the reads
+ 
 ### A. Import data files as Qiime Zipped Artifacts (.qza)
 
 ```
@@ -85,44 +143,34 @@ qiime demux summarize \
 --i-data demux-paired-end.qza \
 --o-visualization demux.qzv
 ```
-Here, you must copy over the `.qzv` output to your computer, and open `demux.qzv` in [view.qiime2.org](https://view.qiime2.org/)
+* Here, you must copy over the `.qzv` output to your computer, and open `demux.qzv` in [www.view.qiime2.org](https://view.qiime2.org/)
 
-multiple_join_paired_ends.py \
-	-i <input.directory.name> \
-	-o <output.directory.name> \
-	--read1_indicator <pattern1> \ 
-	--read2_indicator <pattern2> \
-	-p <QIIME.parameters.file>
+## Step 2 - Quality controlling sequences and building Feature Table and Feature Data 
+
+* QIIME 2 has plugins for various quality control methods such as [DADA2](https://benjjneb.github.io/dada2/tutorial.html) and [Deblur](https://github.com/biocore/deblur). The result of both of these methods will be a `FeatureTable[Frequency]` QIIME 2 artifact containing counts (frequencies) of each unique sequence in each sample in the dataset, and a `FeatureData[Sequence]` QIIME 2 artifact, which maps feature identifiers in the FeatureTable to the sequences they represent. We will use DADA2 in this tutorial. The `FeatureTable[Frequency]` and  `FeatureData[Sequence]` are analogous to QIIME 1's Biom table and rep_set fasta file, respectively.
+
+* The `dada2 denoise-paired` requires four parameters: `--p-trim-left-f`, `--p-trim-left-r`, `--p-trunc-len-f`, and `--p-trunc-len-r`. The `--p-trim-left m` trims off the first `m` bases of each sequence, and `--p-trunc-len n` truncates each sequence at position `n`. The `f` and `r` in each parameter stand for forward and reverse read, correspondingly.
+
+* Please consider the question below before you quality trim the sequences.
+
+> ### Based on the plots you see in `demuz.qzv`, what values would you choose for `--p-trim-left-f`, `--p-trim-left-r`, `--p-trunc-len-f`, and `--p-trunc-len-r` in this case? 
+
+```
+qiime dada2 denoise-paired \
+--i-demultiplexed-seqs demux-paired-end.qza \
+--p-trim-left-f m1 \
+--p-trim-left-r m2 \
+--p-trunc-len-f n1 \
+--p-trunc-len-r n2 \
+--p-n-threads 12 \
+--o-representative-sequences rep-seqs.qza \
+--o-table table.qza
 
 ```
 
-`-o <output.directory.name>` can be whatever directory name you choose but we recommend using `data-clean/1_joined-fastqs`
-
-#### 1b. Quality filter the joined reads
-
-* Create a parameters file called `split-libraries-parameters.txt` with the following lines
-
-```
-#split_libraries_fastq.py parameters
-
-split_libraries_fastq:phred_quality_threshold	19 #minimum quality score of 20
-split_libraries_fastq:max_bad_run_length	5 #allows 5 poor quality bases before read truncation
-split_libraries_fastq:min_per_read_length_fraction	0.70 #minimum fraction of consecutive high quality base calls to include a read
-split_libraries_fastq:barcode_type	not-barcoded 
-```
 
 
-* NOTE: be sure to specify the `--read_indicator`. The default is `_R1_` and more than likely the output from the previous step will have this configuration. 
 
-```
-multiple_split_libraries_fastq.py \
-	-i <input.directory.name> \
-	-o <output.directory.name> \
-	--read_indicator <pattern> \
-	-p <QIIME.parameters.file>
-```
-
-Your quality-filtering parameters specified in the parameters file may change based on your data type and preferences (e.g. if you want stringent vs. relaxed filtering)
 
 #### 1c. Truncate the reverse primer
 
@@ -376,3 +424,14 @@ alpha_rarefaction.py \
 	-t <input.tre> \
 	-e <count.per.sample>
 ```
+
+
+
+
+## Directory structure
+
+Before we begin the pipeline, we want to share a directory structure we use in our lab, and we highly recommend you implement the same or a similar directory structure. Using this structure will not only help you stay organized, but will also help you understand and follow our pipeline with ease. 
+
+![Recommended directory structure for QIIME2](https://www.dropbox.com/s/mqk2plz0d56k224/dir-struc-QIIME-small.png?raw=1)
+
+The numbers in some directory names correspond to the order in which these directories are created during our QIIME 2 pipeline. 
