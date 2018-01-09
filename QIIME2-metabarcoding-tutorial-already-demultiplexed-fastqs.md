@@ -14,77 +14,79 @@ Before we begin the pipeline, we want to share a directory structure we use in o
 The numbers in some directory names correspond to the order in which these directories are created during our QIIME 2 pipeline. 
 
 ## What is QIIME 2?
-QIIME 2 is a microbiome analysis pipeline, and it is significantly different from the previous version QIIME 1. Instead of using data files such as FASTA files, QIIME 2 utilizes artifacts. You can think of artifacts as packaged files, and they can be inputs as well as outputs in QIIME 2. Artifacts have the extension `.qza`. 
+QIIME 2 is a microbiome analysis pipeline, and it is significantly different from the previous version QIIME 1. Instead of using data files such as FASTA files, QIIME 2 utilizes artifacts. You can think of artifacts as zipped files, and they can be inputs as well as outputs in QIIME 2. Artifacts have the extension `.qza`. 
+
+Below is a list of files you must have in order to run the QIIME 2 pipeline.
 
 1. **A mapping file**
-	* This is a tab-delimited file containing all the sequencing info and should be in format below. We have shown only the required columns. More info on formatting the mapping file is [here](http://QIIME.org/documentation/file_formats.html). 
+	* This is a tab-delimited file containing all the sequencing info. You can create this file in excel but it should be saved as a text version. Below is an example mapping file. The required columns are shown in **bold**. 
 	
-	![Example mapping file](https://www.dropbox.com/s/j8jg5ogkt2b0l68/example_mapping_file_small.png?raw=1)
+		![Example mapping file](https://www.dropbox.com/s/fnpjvvx3jor667y/example-mapping-file-2018.png?raw=1)
 	
 2. **R1 fastq**
-	* This file contains reads returned by the sequencer first.
+	* This file contains reads returned by the sequencer first.  
 
 3. **R2 fastq**
 	* This file contains reads returned by the sequencer second.
 
-4. Index file
-	* This file contains the indices used for sequencing. This file is only needed if your reads are not demultiplexed.
+The forward and reverse read file names for a single sample might look like `L2S357_15_L001_R1_001.fastq.gz` and `L2S357_15_L001_R2_001.fastq.gz`, respectively. The underscore-separated fields in this file name are the sample identifier, the barcode sequence or a barcode identifier, the lane number, the read number, and the set number.
+
+
+## Activating QIIME 2 and copying over data files
+
+`source activate qiime2-2017.12`
+
+`source tab-qiime`
+
+`mkdir q2-tutorial`
+
+`cd q2-tutorial`
+
+`cp -r /data/share/BITMaB-2018/18S_metabarcoding_Project_FranPanama/* .`
+
+
  
-	 
+ 	 
 ## Pipeline Overview
 
 Here is an overview of the general steps of the QIIME pipeline for already demultiplexed reads that we will carry out during the BITMaB workshop (click links to jump to detailed instructions for each step):
 
-#### [Step 1](https://github.com/BikLab/BITMaB-workshop/blob/master/QIIME-metabarcoding-tutorial-already-demultiplexed-fastqs.md#step-1---prepare-fastq-files-example-workflow-for-workshop): Prepare fastq files
+#### [Step 1](): Import data and Visualize the artifact
 
-#### [Step 2](https://github.com/BikLab/BITMaB-workshop/blob/master/QIIME-metabarcoding-tutorial-already-demultiplexed-fastqs.md#step-2---pick-operational-taxonomic-units-otus): Pick Operational Taxonomic Units
+#### [Step 2](): Pick Operational Taxonomic Units
 
-#### [Step 3](https://github.com/BikLab/BITMaB-workshop/blob/master/QIIME-metabarcoding-tutorial-already-demultiplexed-fastqs.md#step-3---identify-chimeras-and-remove-chimeric-sequences-from-the-otu-table): Identify chimeras and remove chimeric sequences from the OTU table
+#### [Step 3](): Identify chimeras and remove chimeric sequences from the OTU table
 
 
-#### [Step 4](https://github.com/BikLab/BITMaB-workshop/blob/master/QIIME-metabarcoding-tutorial-already-demultiplexed-fastqs.md#step-4----align-sequences-and-remove-alignment-failures-from-the-otu-table): Align sequences and remove alignment failures from the OTU table
+#### [Step 4](): Align sequences and remove alignment failures from the OTU table
 
-#### [Step 5](https://github.com/BikLab/BITMaB-workshop/blob/master/QIIME-metabarcoding-tutorial-already-demultiplexed-fastqs.md#step-5---filter-rep-set-fasta-file-to-match-the-otu-ids-in-your-filtered-otu-table): Filter rep set fasta file to match the OTU IDs in your filtered OTU table 
+#### [Step 5](): Filter rep set fasta file to match the OTU IDs in your filtered OTU table 
 
-#### [Step 6](https://github.com/BikLab/BITMaB-workshop/blob/master/QIIME-metabarcoding-tutorial-already-demultiplexed-fastqs.md#step-6---make-new-phylogeny-with-final-set-of-otus-no-chimeras-no-alignment-failures): Construct a phylogenetic tree
+#### [Step 6](): Construct a phylogenetic tree
 
-#### [Step 7](https://github.com/BikLab/BITMaB-workshop/blob/master/QIIME-metabarcoding-tutorial-already-demultiplexed-fastqs.md#step-7---run-diversity-analysis): Carry out microbial community analyses to assess alpha- and beta-diversity 
+#### [Step 7](): Carry out microbial community analyses to assess alpha- and beta-diversity 
 
----
 
-### To view the help menu for any QIIME script, run:
-
-```
-<script-name> -h
-```
-OR
+## Step 1:
+### A. Import data files as Qiime Zipped Artifacts (.qza)
 
 ```
-<script-name> --help
+qiime tools import \
+--type 'SampleData[PairedEndSequencesWithQuality]' \
+--input-path raw_reads_paired/ \
+--source-format CasavaOneEightSingleLanePerSampleDirFmt \
+--output-path demux-paired-end.qza
 ```
 
-Web documentation of "help" dialogues are also [available on the QIIME website](http://QIIME.org/scripts/)
-
----
-
-## Step 1 - Prepare fastq files (example workflow for workshop)
-
-Before running QIIME on your own data, you would need to join, quality filter and trim your raw sequence reads. Typically, this is done using the following commands:
-
-#### 1a. Join the paired end reads
-
-* Create a parameters file called `join-PE-parameters.txt` with the following lines
+### B. Summarize and visualize the qza
 
 ```
-#join_paired_ends.py parameters
-
-join_paired_ends:min_overlap	10 #sets minimum overlap to 10bp
-join_paired_ends:perc_max_diff	15 #allows for a 15% error rate in the overlapping area
+qiime demux summarize \
+--i-data demux-paired-end.qza \
+--o-visualization demux.qzv
 ```
+Here, you must copy over the `.qzv` output to your computer, and open `demux.qzv` in [view.qiime2.org](https://view.qiime2.org/)
 
-* NOTE: be sure to specify the `--read1_indicator` and `--read2_indicator`. The default is `_R1_` so `S0_L001_R1_001.fastq.gz` and `S0_L001_R2_001.fastq.gz` would be matched up reads. 
-
-```
 multiple_join_paired_ends.py \
 	-i <input.directory.name> \
 	-o <output.directory.name> \
