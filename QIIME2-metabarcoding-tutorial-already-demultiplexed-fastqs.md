@@ -114,6 +114,7 @@ Here is an overview of the general steps of the QIIME pipeline for already demul
 #### [Step 4](): Summarizing Feature Table and Feature Data
 
 #### [Step 5](): Generating a phylogenetic tree
+
 #### [Step 6](): Analyzing Alpha and Beta diversities
 
 
@@ -166,210 +167,202 @@ qiime dada2 denoise-paired \
 ```
 
 
+## Step 3 - Assigning Taxonomy
 
-
-
-#### 1c. Truncate the reverse primer
-
-* NOTE: you must have the reverse primer sequences listed in your mapping file for this step.
+### A. Import reference data files as Qiime Zipped Artifacts (.qza)
 
 ```
-truncate_reverse_primer.py -f seqs.fna \
-	-m <QIIME.mapping.file> \
-	-o <output.directory.name>
-```
-
-This last step removes the flanking primer sequences from your reads (the primer you used to generate your amplicons in the lab). These primer sequences are contained in your QIIME mapping file.
-
----
-
-## Step 2 - Pick Operational Taxonomic Units (OTUs)
-
-
-"Picking" Operational Taxonomic Units (abbreviated as **OTUs**) is a standard method for clustering raw Illumina reads into clusters of sequences. In theory each OTU is the molecular equivalent of a morphological "species" (but in practice the OTU picking approach is arbitrary and not a perfect equivalent - often you will recover many more OTUs than known biological species).
-
-QIIME offers several options for picking OTUs - the two most common are `reference-based OTU picking` and `open-reference OTU picking`
-
-> ### Why would choose use one type of OTU picking over the other?
-
-In this workshop we will be using open-reference OTU picking - [described here in this QIIME tutorial](http://QIIME.org/tutorials/open_reference_illumina_processing.html). The method is also peer-reviewed and published in [Rideout et. al 2014, PeerJ](https://peerj.com/articles/545/) (open access publication)
-
-We will start by picking OTUs using our fasta file that contains quality-filtered Illumina reads from each sample. 
-
-#### 2a. Picking OTUs using the open reference strategy
-
-We pick OTUs using `workflow scripts` in QIIME. These wrap many scripts under one umbrella command - so to modify some parameters, we need to use a parameter file. Create a parameters file called `18S_openref99_rdp_silva119.txt` with the following lines
-
-```
-#Parameters for 99pct open reference OTU picking with rdp taxonomy assignment
-
-
-# OTU picker parameters
-pick_otus:similarity	0.99
-pick_otus:enable_rev_strand_match	True
-
-# Taxonomy assignment parameters
-assign_taxonomy:reference_seqs_fp	/home/gomre/taruna/GOM-Illumina/ref_dbs/Silva119_release/rep_set_eukaryotes/99/Silva_119_rep_set99_18S.fna
-assign_taxonomy:id_to_taxonomy_fp	/home/gomre/taruna/GOM-Illumina/ref_dbs/Silva119_release/consensus_majority_taxonomy/consensus_taxonomy_eukaryotes/99/taxonomy_99_7_levels_consensus.txt
-assign_taxonomy:assignment_method	rdp
-assign_taxonomy:confidence	0.7
-assign_taxonomy:rdp_max_memory	60000
+qiime tools import \
+--type FeatureData[Sequence] \
+--input-path /usr/local/share/SILVA_databases/SILVA_128_QIIME_release/rep_set/rep_set_18S_only/99/99_otus_18S.fasta \
+--output-path 99_otus_18S
 
 ```
 
-> ### Examine the QIIME parameter file above. What do you see? What parameters are we modifying?
-
-
-
-We'll start by running the following command:
+```
+qiime tools import \
+--type FeatureData[Taxonomy] \
+--input-path /usr/local/share/SILVA_databases/SILVA_128_QIIME_release/taxonomy/18S_only/99/consensus_taxonomy_all_levels.txt \
+--source-format HeaderlessTSVTaxonomyFormat \
+--output-path consensus_taxonomy_all_levels
 
 ```
-pick_open_reference_otus.py \
-	-i <input.fasta> \
-	-r <database.reference.seqs> \
-	-o <output.directory.name> \
-	-p <QIIME.parameters.file> \
-	-s 0.10 \
-	--prefilter_percent_id 0.0 \
-	--suppress_align_and_tree
+
+### B. Classify query sequences using Blast
+
+```
+qiime feature-classifier classify-consensus-blast \
+--i-query rep-seqs.qza \
+--i-reference-taxonomy consensus_taxonomy_all_levels.qza \
+--i-reference-reads 99_otus_18S.qza \
+--o-classification taxonomy \
+--p-perc-identity 0.97 \
+--p-maxaccepts 1
+
+```
+```
+mv table.qza unfiltered-table.qza
+
 ```
 
-The `<input.fasta>` is the output file from Step 1c. 
+### C. Filter the Feature Table to contain only metazoa OTUs.
 
-Again, choose any name for your output directory - it's usually a good idea to make this descriptive so you can remember what type of analysis you did, and when you ran it. Something like: `-o analysis-results/uclust-99pct-18Seuk-11Jan17/1_otu-pick`
+```
+qiime taxa filter-table \
+  --i-table unfiltered-table.qza \
+  --i-taxonomy taxonomy.qza \
+  --p-include metazoa \
+  --o-filtered-table table.qza
 
-> ### Once the OTU picking script is finished, what files do you see in your output directory? 
+```
 
-> ### Peek into the OTU picking logfile. How many different commands were run using this workflow script?
 
+## Step 4 - Summarizing Feature Table and Feature Data
+
+```
+qiime feature-table summarize \
+--i-table table.qza \
+--o-visualization table.qzv \
+--m-sample-metadata-file mapping_file_panama_MAY_2017.tsv
+
+```
+
+
+```
+qiime feature-table tabulate-seqs \
+--i-data rep-seqs.qza \
+--o-visualization rep-seqs.qzv
+
+```
+
+* Here, you must copy over the `.qzv` outputs to your computer, and open `table.qzv` and `rep-seqs.qzv` in [www.view.qiime2.org](https://view.qiime2.org/)
+
+
+## Step 5 - Generating a phylogenetic tree
+
+```
+qiime alignment mafft --i-sequences rep-seqs.qza --o-alignment aligned-rep-seqs.qza
+```
+```
+qiime alignment mask --i-alignment aligned-rep-seqs.qza --o-masked-alignment masked-aligned-rep-seqs.qza
+```
+```
+qiime phylogeny fasttree --i-alignment masked-aligned-rep-seqs.qza --o-tree unrooted-tree.qza
+```
+```
+qiime phylogeny midpoint-root --i-tree unrooted-tree.qza --o-rooted-tree rooted-tree.qza
+```
+
+
+## Step 6 - Analyzing Alpha and Beta diversities
+
+#### A. Assess alpha rarefaction
+
+```
+qiime diversity alpha-rarefaction \
+-i-table table.qza \
+--i-phylogeny rooted-tree.qza \
+--p-min-depth 500 \
+--p-max-depth 6018 \
+--m-metadata-file mapping_file_panama_MAY_2017.tsv \
+--o-visualization alpha-rarefaction.qzv
+```
+
+* Here, you must copy over the `.qzv` output to your computer, and open it in [www.view.qiime2.org](https://view.qiime2.org/)
+
+> ### View the `table.qzv` QIIME 2 artifact, and in particular the Interactive Sample Detail tab in that visualization. What value would you choose to pass for `--p-sampling-depth` below? How many samples will be excluded from your analysis based on this choice? How many total sequences will you be analyzing in the core-metrics-phylogenetic command? 
+
+#### B. Compute several alpha and beta diversity metrics and plot PCoAs using Emperor
+
+```
+qiime diversity core-metrics-phylogenetic \
+--i-phylogeny rooted-tree.qza \
+--i-table table.qza \
+--p-sampling-depth n \
+--m-metadata-file mapping_file_panama_MAY_2017.tsv \
+--output-dir core-metrics-results
+```
+
+```
+qiime diversity alpha-group-significance \
+--i-alpha-diversity core-metrics-results/faith_pd_vector.qza \
+--m-metadata-file mapping_file_panama_MAY_2017.tsv \
+--o-visualization core-metrics-results/faith-pd-group-significance.qzv
+```
+
+```
+qiime diversity alpha-group-significance \
+--i-alpha-diversity core-metrics-results/evenness_vector.qza \
+--m-metadata-file mapping_file_panama_MAY_2017.tsv \
+--o-visualization core-metrics-results/evenness-group-significance.qzv
+```
+
+* View the `.qzv` outputs in [www.view.qiime2.org](https://view.qiime2.org/) and answer the following questions.
+
+> ### What discrete sample metadata categories are most strongly associated with the differences in microbial community richness? Are these differences statistically significant? 
  
-#### 2b. Assign taxonomy
+
+> ### What discrete sample metadata categories are most strongly associated with the differences in microbial community evenness? Are these differences statistically significant?
+
 
 ```
-export RDP_JAR_PATH=/usr/local/lib/rdp_classifier_2.2/rdp_classifier-2.2.jar
-
+qiime diversity alpha-correlation \
+--i-alpha-diversity core-metrics-results/faith_pd_vector.qza \
+--m-metadata-file mapping_file_panama_MAY_2017.tsv \
+--o-visualization core-metrics-results/faith-pd-correlation.qzv
 ```
 
 ```
-assign_taxonomy.py \
-	-i <rep-set-OTUs.fna> \
-	-r Silva_119_rep_set99_18S.fna \
-	-t taxonomy_99_7_levels_consensus.txt \
-	-o <output.directory.name> \
-	-m rdp 
+qiime diversity alpha-correlation \
+--i-alpha-diversity core-metrics-results/evenness_vector.qza \
+--m-metadata-file mapping_file_panama_MAY_2017.tsv \
+--o-visualization core-metrics-results/evenness-correlation.qzv
 ```
 
-If you get an error message when trying to assign taxonomy (e.g. when using a large dataset), try increasing the RDP max memory, for example `--rdp_max_memory 80000`
-
----
-
-## Step 3 - Identify chimeras and remove chimeric sequences from the OTU table
-
-#### 3a. Identify chimeras
 ```
-identify_chimeric_seqs.py \
-	-i <rep-set-OTUs.fna> \
-	-m usearch61 \
-	-o <output.directory.name> \
-	-r Silva_119_rep_set99_18S.fna
-```
-We recommend using `-m ChimeraSlayer` but it is available on your server.
- 
-#### 3b. Remove any sequences flagged as chimeras from the BIOM table
-
-```
-filter_otus_from_otu_table.py \
-	-i <OTU-table-input.biom> \
-	-o <OTU-table-output.biom> \
-	-e <chimeras.txt>
+qiime diversity beta-group-significance \
+--i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza \
+--m-metadata-file mapping_file_panama_MAY_2017.tsv \
+--m-metadata-category Matrix \
+--o-visualization core-metrics-results/unweighted-unifrac-Matrix-group-significance.qzv \
+--p-pairwise
 ```
 
----
-
-## Step 4 -  Align sequences and remove alignment failures from the OTU table
-
-#### 4a. Align rep_set.fna against a pre-aligned reference database. In our case, we are using the Silva119 database. 
-
 ```
-align_seqs.py \
-	-i <rep-set-OTUs.fna> \
-	-o <output.directory.name> \
-	-t Silva_119_rep_set99_aligned_18S_only.fna \
-	--alignment_method pynast \
-	--pairwise_alignment_method uclust \
-	--min_percent_id 70.0
+qiime emperor plot \
+--i-pcoa core-metrics-results/unweighted_unifrac_pcoa_results.qza \
+--m-metadata-file mapping_file_panama_MAY_2017.tsv \
+--p-custom-axis Depths \
+--o-visualization core-metrics-results/unweighted-unifrac-emperor-Depths.qzv
 ```
 
-#### 4b. Remove gaps from the aligned rep sets which is important for constructing a phylogeny. If using the Greengenes database, this step is highly recommended. 
-
 ```
-filter_alignment.py \
-	-i <aligned-rep-set-OTUs.fna> \
-	-o <output.directory.name> \
-	--suppress_lane_mask_filter
-```
-
-#### 4c. Add metadata to the BIOM table. This will be helpful for viewing the diversity results.
-
-```
-biom add-metadata \
-	-i <table.biom> \
-	-o <OTU-table.txt> \
-	-m <mapping.file.txt>
+qiime emperor plot \
+--i-pcoa core-metrics-results/bray_curtis_pcoa_results.qza \
+--m-metadata-file mapping_file_panama_MAY_2017.tsv \
+--p-custom-axis Depths \
+--o-visualization core-metrics-results/bray-curtisc-emperor-Depths.qzv
 ```
 
-#### 4d. Summarize the BIOM table to assess the number of sequences/OTUs per sample and store the output in a text file. 
+```
+qiime metadata tabulate \
+--m-input-file taxonomy.qza \
+--o-visualization taxonomy.qzv
+```
+```
+qiime taxa barplot \
+--i-table table.qza \
+--i-taxonomy taxonomy.qza \
+--m-metadata-file mapping_file_panama_MAY_2017.tsv \
+--o-visualization taxa-bar-plots.qzv
+```
 
-```
-biom summarize-table \
-	-i <table.biom> \
-	-o <OTU-table-summary.txt>
-```
+* View the `.qzv` outputs in [www.view.qiime2.org](https://view.qiime2.org/).
 
 
 ---
 
-## Step 5 - Filter rep set fasta file to match the OTU IDs in your filtered OTU table 
 
-```
-filter_fasta.py \
-	-f <rep-set-aligned-filtered.fna> \
-	-o <output.fna> \
-	-b <table.biom>
-```
-
----
-
-## Step 6 - Make new phylogeny with final set of OTUS (no chimeras, no alignment failures)
-```
-make_phylogeny.py \
-	-i <rep-set-aligned-filtered.fna> \
-	-o <output.tre> \
-	--tree_method fasttree
-```
-
----
-
-## Step 7 - Run diversity analysis
-
-
-### Run Core Diversity Analysis workflow script
-
-```
-core_diversity_analyses.py \
-	-i <OTU-table.biom> \
-	-o <core-div> \
-	-m <QIIME.mapping.file> \
-	-e NUMBER \
-	-t <phylogeny.tre> \
-	-c Habitat
-```
-
-`-e NUMBER` needs to be completed based on the results of `biom-summarize-table` command - this flag indicates the sequencing depth you will use for even-subsampling and maximum rarefaction depth (e.g. the number of reads you will randomly select from each sample). If a sample contains less reads than the value specified for `-e NUMBER`, then the diversity workflow script will NOT include this sample in your analysis. For example, if `-e 5000` then a sample containing only 1000 reads will not be used to carry out diversity analyses (and you will not see this sample name in your output).
-
-The above `core_diversity_analyses.py` workflow runs a large number of different types of analyses within one script (alpha-diversity, beta-diversity, category analysis, etc.). You can also run individual analyses if you prefer.
-
----
 
 ### Other Options for downstream visualization and community analysis
 
