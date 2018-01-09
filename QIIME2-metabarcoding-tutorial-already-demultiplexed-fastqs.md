@@ -111,14 +111,11 @@ Here is an overview of the general steps of the QIIME pipeline for already demul
 
 #### [Step 3](): Assigning Taxonomy
 
-#### [Step 3](): Building Feature table (aka OTU table)
-
 #### [Step 4](): Summarizing Feature Table and Feature Data
 
 #### [Step 5](): Generating a phylogenetic tree
 #### [Step 6](): Analyzing Alpha and Beta diversities
 
-#### [Step 7](): Assigning Taxonomy
 
 ---
 
