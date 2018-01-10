@@ -120,7 +120,7 @@ Here is an overview of the general steps of the QIIME pipeline for already demul
 
 ---
 
-* NOTE: For the purposes of this tutorial, we are running all the analysis in a single directory and using non-descriptive names when assigning output files. However, we highly recommend that you use a directory structure that allows you to keep your files organized and name your files and directories as descriptively as possible. We have shared our own directory structure and naming conventions at the end of this tutorial.
+* NOTE: For the purposes of this tutorial, we are running all the analysis in a single directory and using non-descriptive names when assigning output files.
 
 ## Step 1 - Importing data, summarize the results, and examing quality of the reads
  
@@ -374,54 +374,3 @@ Statistical test that looks for enrichment or depletion of OTUs across sample me
 
 #### [Phyloseq](https://github.com/joey711/phyloseq/wiki) - An R package for visualizing QIIME outputs
 Offers sleeker visualizaitons and more flexibility than the visualizations offered within QIIME. You can produce heatmaps, box plots, and trim down your OTU table to only look at community patterns within certain OTUs or taxonomic groups. Great for generating publication-ready figures, but requires quite a bit of R knowledge and tweaking to get working.
-
-#### Other Useful QIIME scripts for Diversity analysis
-
-
-`alpha_diversity.py` - gives you bar charts showing relative abundance of taxa across samples
-
-`beta_diversity_through_plots.py` - primary script for Principle Coordinate Analysis, can be run using a phylogenetic tree (weighted/unweighted Unifrac PCoAs) or carried out using non-phylogenetic metrics (Bray-Curtis, Jaccard, Canberra diversity metrics)
-
-* **Canberra** - doesn’t expect differences in the most abundant OTUs  - squashes relevance down to the same weight; rare species will help to explain differences.
-* **Bray-Curtis** - Only cares about the most abundant species.
-* **Jaccard** - simplest shared OTU index.
-
-
- 
-Example script for individual beta diversity analysis :
-
-```
-beta_diversity_through_plots.py \
-	-i <table.biom> \
-	-m <mapping.file.txt> \
-	-o <output.directory.name> \
-	-t <input.tre> \
-	-e <count.per.sample>
-```
-Example scripts for individual alpha diversity analysis:
-
-```
-alpha_diversity.py \
-	-i  <table.biom> \
-	-o <output.txt> \
-	-t <input.tre> 
-```
-```
-alpha_rarefaction.py \
-	-i  <table.biom> \
-	-m <mapping.file.txt> \
-	-o <output.directory.name> \
-	-t <input.tre> \
-	-e <count.per.sample>
-```
-
-
-
-
-## Directory structure
-
-Before we begin the pipeline, we want to share a directory structure we use in our lab, and we highly recommend you implement the same or a similar directory structure. Using this structure will not only help you stay organized, but will also help you understand and follow our pipeline with ease. 
-
-![Recommended directory structure for QIIME2](https://www.dropbox.com/s/mqk2plz0d56k224/dir-struc-QIIME-small.png?raw=1)
-
-The numbers in some directory names correspond to the order in which these directories are created during our QIIME 2 pipeline. 
