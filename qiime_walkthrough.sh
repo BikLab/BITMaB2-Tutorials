@@ -33,6 +33,11 @@ qiime dada2 denoise-paired\
   --o-representative-sequences rep-seqs\
   --o-table table  ##  ~5 min to run solo
 
+qiime feature-table summarize\
+  --i-table table.qza\
+  --o-visualization unfiltered-table.qzv\
+  --m-sample-metadata-file mapping_file_panama_MAY_2017.tsv
+  
 qiime tools import\
   --type FeatureData[Sequence]\
   --input-path /usr/local/share/SILVA_databases/SILVA_128_QIIME_release/rep_set/rep_set_18S_only/99/99_otus_18S.fasta\
@@ -40,13 +45,13 @@ qiime tools import\
   
 qiime tools import\
   --type FeatureData[Taxonomy]\
-  --input-path /usr/local/share/SILVA_databases/SILVA_128_QIIME_release/taxonomy/18S_only/99/consensus_taxonomy_all_levels.txt\
+  --input-path /usr/local/share/SILVA_databases/SILVA_128_QIIME_release/taxonomy/18S_only/99/majority_taxonomy_all_levels.txt\
   --source-format HeaderlessTSVTaxonomyFormat\
-  --output-path concencus_taxonomy_all_levels
+  --output-path majority_taxonomy_all_levels
 
 qiime feature-classifier classify-consensus-blast\
   --i-query rep-seqs.qza\
-  --i-reference-taxonomy concencus_taxonomy_all_levels.qza\
+  --i-reference-taxonomy majority_taxonomy_all_levels.qza\
   --i-reference-reads 99_otus_18S.qza\
   --o-classification taxonomy\
   --p-perc-identity 0.97\
