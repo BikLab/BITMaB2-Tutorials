@@ -9,6 +9,8 @@ cp -r /data/share/BITMaB-2018/18S_metabarcoding_Project_FranPanama/* .
 # ls -lh raw_reads_paired
 
 qiime tools import   --type 'SampleData[PairedEndSequencesWithQuality]'   --input-path raw_reads_paired/   --source-format CasavaOneEightSingleLanePerSampleDirFmt   --output-path demux-paired-end.qza
+unzip demux-paired-end.qza
+qiime tools export demux-paired-end.qza --output-dir .
 qiime demux summarize --i-data demux-paired-end.qza --o-visualization demux.qzv
 # pwd
 # scp ron.sr.unh.edu:~/q2-tutorial/*.qzv .   ## on your own computer!!  Don't forget your username, uname@ron...
