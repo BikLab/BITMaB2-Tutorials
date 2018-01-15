@@ -1,4 +1,4 @@
-# Welcome to the BITMaB workshop - Corpus Christi, TX (January 15-19, 2018)
+# Welcome to the BITMaB-2 workshop - Corpus Christi, TX (January 15-19, 2018)
 
 This workshop provides training on how to describe the taxonomic diversity in a marine benthic community, using both morphological taxonomy and environmental sequencing approaches (genome assembly, metabarcoding amplicons, transcriptomics using RNA-seq, and other -Omics methods).
 
@@ -52,6 +52,9 @@ Fieldwork and Lab Technicians:
 
 * Introduction to Genomics, Bioinformatics, and Sequencing Technologies (Kelley Thomas)
 * Introduction to the command line environment and the world of BASH (Devin Thomas and Joe Sevigny)
+	* [BASH intro commands](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/bash_lesson.sh) - first part of printout
+	* [QIIME2 common commands](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/bash_lesson.sh) - second part of printout
+	* BASH command cheatsheet - third part of printout
 * Advanced command line tricks
 * **Taxonomy Lecture**: Goals of the workshop and how it fits into the context of the research project “Genomic Responses to the Deepwater Horizon event and development of high-throughput biological assays for oil spills” (Dr. Francesca Leasi)
 * **Taxonomy Lecture**: Bivalvia and Gastropoda of the GoM (Dr. Fabio Moretzsohn)
@@ -67,6 +70,7 @@ Fieldwork and Lab Technicians:
 * Introduction to the QIIME2 pipeline for microbial ecology and metabarcoding data analysis (Dr. Holly Bik)
 	* [QIIME2 Overview Slides](http://bit.ly/q2-vegas-2017) (from June 2017 QIIME2 workshop)
 	* [QIIME1 to QIIME2 script conversion cheatsheet](https://docs.google.com/spreadsheets/d/1AOyA84lGPBk5C2Uflg_pILEL75a6_gdY6SK3ltOt44E/edit#gid=0)
+	* [QIIME 2 workflow for metabarcoding analysis (18S/16S rRNA) with already-demultiplexed fastq files](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/QIIME2-metabarcoding-tutorial-already-demultiplexed-fastqs.md)
 * **Taxonomy Lecture**: Harpacticoida (Dr. Wonchoel Lee)
 * **Taxonomy Lecture**: Kinorhyncha & Gnathostomulida (Dr. Martin Sørensen)
 
