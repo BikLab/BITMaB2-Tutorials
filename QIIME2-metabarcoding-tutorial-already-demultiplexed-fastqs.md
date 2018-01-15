@@ -2,27 +2,27 @@
 
 Here, we will utilize a pipeline called QIIME (v2) to analyze and visualize microbial diversity using raw DNA sequences in fastq files. In contrast to QIIME 1, QIIME 2 features several new ways of analyzing NGS data and has been modified significantly bioinformatically, but NOT biologically. 
 
-Please keep in mind that QIIME 2 is a work in progress; so some features may not yet be available. But rest assured that QIIME 2 team is working hard and should you have any uber specific questions we cannot answer, please sign-up and post them on the [QIIME 2 forum](https://forum.qiime2.org/). 
-
 Below is a list of a few terms you should know when utilizing QIIME 2. 
 
 1. **Action** - a generic term for a method or visualizer.
 2. **Artifact** - zipped input or output data for QIIME actions. Artifacts have file extension `.qza`. 
 3. **Parameter** - an input to an action. For instance, `--p-trim-left` is a parameter that takes in an integer value for any number of bases that the user wishes to trim off from the start of the sequence.
 4. **Plugin** - a general term for an external tool that is built around QIIME 2. 
-5. **Visualization** - output data from a QIIME visualizer that have file extension `.qzv`. These can be viewed online
+5. **Visualization** - output data from a QIIME visualizer that have file extension `.qzv`. These can be viewed [online](https://view.qiime2.org/).
 
 
 Please use this pipeline if your **fastq files are already demultiplexed** - meaning each fastq file pairs (R1 and R2) represent sequences from ONE sample type.
+
+Please also keep in mind that QIIME 2 is a work in progress; so some features may not yet be available. But rest assured that QIIME 2 team is working hard and should you have any uber specific questions we cannot answer, please sign-up and post them on the [QIIME 2 forum](https://forum.qiime2.org/). 
 
 [Link to the main QIIME 2 website](https://docs.qiime2.org/2017.12/) (for more tutorials and detailed documentation of the pipeline).
 
 ---
 
 ## What is QIIME 2?
-QIIME 2 is a microbiome analysis pipeline, and it is significantly different from the previous version QIIME 1. Instead of using data files such as FASTA files, QIIME 2 utilizes artifacts. You can think of artifacts as zipped files, and they can be inputs as well as outputs in QIIME 2. Artifacts have the extension `.qza`. 
+QIIME 2 is a microbiome analysis pipeline, and it is significantly different from the previous version QIIME 1. Instead of directly using data files such as FASTQ and FASTA files, QIIME 2 utilizes artifacts. See definition above. 
 
-Below is a list of files you must have in order to run the QIIME 2 pipeline.
+Here is a list of files you must have in order to run the QIIME 2 pipeline.
 
 1. **A mapping file**
 	* This is a tab-delimited file containing all the sequencing info. You can create this file in excel but it should be saved as a text version. Below is an example mapping file. The required columns are shown in **bold**. 
@@ -51,7 +51,7 @@ The forward and reverse read file names for a single sample might look like `L2S
 `cp -r /data/share/BITMaB-2018/18S_metabarcoding_Project_FranPanama/* .`
 
 
-### To view the help menu for any QIIME 2 method, you can run that particular method followed by `--help` as shown below.
+### To view the help menu for any QIIME 2 action, you can run that particular action followed by `--help` as shown below.
 
 
 **Command:**
