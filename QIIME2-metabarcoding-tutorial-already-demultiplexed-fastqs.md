@@ -118,6 +118,7 @@ Options:
 
 Here is an overview of the general steps of the QIIME pipeline for already demultiplexed reads that we will carry out during the BITMaB workshop (click links to jump to detailed instructions for each step):
 
+#### [Step 0](): Quick command for data that are NOT already demultiplexed 
 #### [Step 1](): Importing data, summarize the results, and examing quality of the reads
 
 #### [Step 2](): Quality controlling sequences and building Feature Table and Feature Data
@@ -134,6 +135,15 @@ Here is an overview of the general steps of the QIIME pipeline for already demul
 ---
 
 * NOTE: For the purposes of this tutorial, we are running all the analysis in a single directory and using non-descriptive names when assigning output files.
+
+## Step 0 - Quick command for data that are NOT already demultiplexed 
+
+In case your data are NOT demultiplexed, you may use the following commands for separating your read files based on sample names.
+
+```
+
+
+```
 
 ## Step 1 - Importing data, summarize the results, and examing quality of the reads
  
