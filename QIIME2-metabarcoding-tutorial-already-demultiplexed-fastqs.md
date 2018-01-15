@@ -79,7 +79,7 @@ Commands:
   view      View a QIIME 2 Visualization.
   
 ```
-AND, to get more info on the commands associated with a method, run the method along with the desired command as shown below.
+AND, to get more info on the commands associated with an action, run the action along with the desired command as shown below.
 
 **Command:**
 
