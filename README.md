@@ -50,7 +50,7 @@ Fieldwork and Lab Technicians:
 
 **Monday January 15, 2018**
 
-* Introduction to Genomics, Bioinformatics, and Sequencing Technologies (Kelley Thomas)
+* [Introduction to Genomics, Bioinformatics, and Sequencing Technologies](https://github.com/BikLab/BITMaB2-Tutorials/tree/master/presentations/pdfs) (Kelley Thomas)
 * Introduction to the command line environment and the world of BASH (Devin Thomas and Joe Sevigny)
 	* [BASH intro commands](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/bash_lesson.sh) - first part of printout
 	* [QIIME2 common commands](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/bash_lesson.sh) - second part of printout
