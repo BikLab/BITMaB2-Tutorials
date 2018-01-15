@@ -118,7 +118,6 @@ Options:
 
 Here is an overview of the general steps of the QIIME pipeline for already demultiplexed reads that we will carry out during the BITMaB workshop (click links to jump to detailed instructions for each step):
 
-#### [Step 0](): Quick command for data that are NOT already demultiplexed 
 #### [Step 1](): Importing data, summarize the results, and examing quality of the reads
 
 #### [Step 2](): Quality controlling sequences and building Feature Table and Feature Data
@@ -136,18 +135,27 @@ Here is an overview of the general steps of the QIIME pipeline for already demul
 
 * NOTE: For the purposes of this tutorial, we are running all the analysis in a single directory and using non-descriptive names when assigning output files.
 
-## Step 0 - Quick command for data that are NOT already demultiplexed 
-
-In case your data are NOT demultiplexed, you may use the following commands for separating your read files based on sample names.
-
-```
-
-
-```
-
 ## Step 1 - Importing data, summarize the results, and examing quality of the reads
  
 ### A. Import data files as Qiime Zipped Artifacts (.qza)
+
+In order to work with your data within QIIME 2, we first must import the FASTQ files as a QIIME artifact. The action to import files is `qiime tools import`. 
+
+Let's start by pulling the help menu for the `qiime tools` action first. Please run:
+
+```
+qiime tools --help
+```
+> ### What are some commands you can run with the `qiime tools` action?
+
+Next, run:
+
+```
+qiime tools import --help
+```
+> ### What are the *required* options we must specify when importing FASTQ files as QIIME artifact?
+
+Now, we can use the `import` command to import our files as QIIME artifact.
 
 ```
 qiime tools import \
@@ -156,6 +164,22 @@ qiime tools import \
 --source-format CasavaOneEightSingleLanePerSampleDirFmt \
 --output-path demux-paired-end.qza
 ```
+---
+---
+* NOTE: In case your data are NOT demultiplexed, you may use the following commands for separating your read files based on sample names.
+
+```
+qiime demux emp-paired \
+  --m-barcodes-file sample-metadata.tsv \
+  --m-barcodes-category BarcodeSequence \
+  --i-seqs emp-paired-end-sequences.qza \
+  --o-per-sample-sequences demux \
+  --p-rev-comp-mapping-barcodes
+
+```
+---
+---
+
 
 ### B. Summarize and visualize the qza
 
