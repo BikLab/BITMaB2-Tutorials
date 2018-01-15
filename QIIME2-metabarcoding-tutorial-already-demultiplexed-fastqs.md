@@ -35,7 +35,8 @@ Here is a list of files you must have in order to run the QIIME 2 pipeline.
 3. **R2 fastq**
 	* This file contains reads returned by the sequencer second.
 
-The forward and reverse read file names for a single sample might look like `L2S357_15_L001_R1_001.fastq.gz` and `L2S357_15_L001_R2_001.fastq.gz`, respectively. The underscore-separated fields in this file name are the sample identifier, the barcode sequence or a barcode identifier, the lane number, the read number, and the set number.
+
+QIIME 2 supports various data formats for sequences files and BIOM tables, however the descriptions of these formats are still being developed. Some common data formats are described in the [Importing Data tutorial](https://docs.qiime2.org/2017.12/tutorials/importing/). 
 
 
 ## Activating QIIME 2 and copying over data files
@@ -92,13 +93,13 @@ qiime tools import --help
 ```
 > ### What are the *required* options we must specify when importing FASTQ files as QIIME artifact?
 
-And and, to get more info on the options associated with a command associated with an action, run the option along with the desired command and action as shown below. This won't work for all the options fyi.
+And and, to get more info on the options associated with a command associated with an action, run the option along with the desired command and action as shown below. This may not work for all the options fyi.
 
 ```
 qiime tools import --show-importable-formats --help
 ```
 
-Now, we can use the `import` command to import our files as QIIME artifact.
+Now, we can use the `import` command to import our files as QIIME artifact. The data format used here is called `CasavaOneEightSingleLanePerSampleDirFmt`. In this format, there are two `fastq.gz` files for each sample. The forward and reverse read file names for a single sample might look like `L2S357_15_L001_R1_001.fastq.gz` and `L2S357_15_L001_R2_001.fastq.gz`, respectively. The underscore-separated fields in this file name are the sample identifier, the barcode sequence or a barcode identifier, the lane number, the read number, and the set number.
 
 ```
 qiime tools import \
@@ -109,7 +110,7 @@ qiime tools import \
 ```
 ---
 ---
-* NOTE: In case your data are NOT demultiplexed, you may use the following command, after importing the multiplexed files as QIIME artifact, for separating your read files based on sample names.
+* NOTE: In case your paired-end data are multiplexed, you may use the following command, after importing the multiplexed files as QIIME artifact, for separating/demultiplexing your read files based on sample names.
 
 ```
 qiime demux emp-paired \
