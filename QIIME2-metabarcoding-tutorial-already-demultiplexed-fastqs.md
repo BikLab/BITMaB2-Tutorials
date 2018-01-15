@@ -50,69 +50,6 @@ The forward and reverse read file names for a single sample might look like `L2S
 
 `cp -r /data/share/BITMaB-2018/18S_metabarcoding_Project_FranPanama/* .`
 
-
-### To view the help menu for any QIIME 2 action, you can run that particular action followed by `--help` as shown below.
-
-
-**Command:**
-
-```
-qiime tools --help
-
-```
-**Output:**
-
-```
-Usage: qiime tools [OPTIONS] COMMAND [ARGS]...
-
-  Tools for working with QIIME 2 files.
-
-Options:
-  --help  Show this message and exit.
-
-Commands:
-  export    Export data from a QIIME 2 Artifact or Visualization.
-  extract   Extract a QIIME 2 Artifact or Visualization archive.
-  import    Import data into a new QIIME 2 Artifact.
-  peek      Take a peek at a QIIME 2 Artifact or Visualization.
-  validate  Validate data in a QIIME 2 Artifact.
-  view      View a QIIME 2 Visualization.
-  
-```
-AND, to get more info on the commands associated with an action, run the action along with the desired command as shown below.
-
-**Command:**
-
-```
-qiime tools import --help
-```
-**Output:**
-
-```
-Usage: qiime tools import [OPTIONS]
-
-  Import data to create a new QIIME 2 Artifact. See https://docs.qiime2.org/
-  for usage examples and details on the file types and associated semantic
-  types that can be imported.
-
-Options:
-  --type TEXT                The semantic type of the artifact that will be
-                             created upon importing. Use --show-importable-
-                             types to see what importable semantic types are
-                             available in the current deployment.  [required]
-  --input-path PATH          Path to file or directory that should be
-                             imported.  [required]
-  --output-path PATH         Path where output artifact should be written.
-                             [required]
-  --source-format TEXT       The format of the data to be imported. If not
-                             provided, data must be in the format expected by
-                             the semantic type provided via --type.
-  --show-importable-types    Show the semantic types that can be supplied to
-                             --type to import data into an artifact.
-  --show-importable-formats  Show formats that can be supplied to --source-
-                             format to import data into an artifact.
-  --help                     Show this message and exit. 
-```
  	 
 ## Pipeline Overview
 
@@ -141,19 +78,25 @@ Here is an overview of the general steps of the QIIME pipeline for already demul
 
 In order to work with your data within QIIME 2, we first must import the FASTQ files as a QIIME artifact. The action to import files is `qiime tools import`. 
 
-Let's start by pulling the help menu for the `qiime tools` action first. Please run:
+Let's start by pulling the help menu for the `qiime tools` action first. To do this for any QIIME 2 action, you can run that particular action followed by `--help` as shown below. 
 
 ```
 qiime tools --help
 ```
 > ### What are some commands you can run with the `qiime tools` action?
 
-Next, run:
+And, to get more info on the commands associated with an action, run the action along with the desired command as shown below.
 
 ```
 qiime tools import --help
 ```
 > ### What are the *required* options we must specify when importing FASTQ files as QIIME artifact?
+
+And and, to get more info on the options associated with a command associated with an action, run the option along with the desired command and action as shown below. This won't work for all the options fyi.
+
+```
+qiime tools import --show-importable-formats --help
+```
 
 Now, we can use the `import` command to import our files as QIIME artifact.
 
@@ -166,7 +109,7 @@ qiime tools import \
 ```
 ---
 ---
-* NOTE: In case your data are NOT demultiplexed, you may use the following commands for separating your read files based on sample names.
+* NOTE: In case your data are NOT demultiplexed, you may use the following command, after importing the multiplexed files as QIIME artifact, for separating your read files based on sample names.
 
 ```
 qiime demux emp-paired \
