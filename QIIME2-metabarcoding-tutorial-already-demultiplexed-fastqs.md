@@ -1,6 +1,19 @@
 ## QIIME 2 workflow for metabarcoding analysis (18S/16S rRNA) with already-demultiplexed fastq files.
 
-Here, we will utilize a pipeline called QIIME (v2) to analyze and visualize microbial diversity using raw DNA sequences in fastq files. Please use this pipeline if your fastq files are already demultiplexed - meaning each fastq file pairs (R1 and R2) represent sequences from ONE sample type.
+Here, we will utilize a pipeline called QIIME (v2) to analyze and visualize microbial diversity using raw DNA sequences in fastq files. In contrast to QIIME 1, QIIME 2 features several new ways of analyzing NGS data and has been modified significantly bioinformatically, but NOT biologically. 
+
+Please keep in mind that QIIME 2 is a work in progress; so some features may not yet be available. But rest assured that QIIME 2 team is working hard and should you have any uber specific questions we cannot answer, please sign-up and post them on the [QIIME 2 forum](https://forum.qiime2.org/). 
+
+Below is a list of a few terms you should know when utilizing QIIME 2. 
+
+1. **Action** - a generic term for a method or visualizer.
+2. **Artifact** - zipped input or output data for QIIME actions. Artifacts have file extension `.qza`. 
+3. **Parameter** - an input to an action. For instance, `--p-trim-left` is a parameter that takes in an integer value for any number of bases that the user wishes to trim off from the start of the sequence.
+4. **Plugin** - a general term for an external tool that is built around QIIME 2. 
+5. **Visualization** - output data from a QIIME visualizer that have file extension `.qzv`. These can be viewed online
+
+
+Please use this pipeline if your **fastq files are already demultiplexed** - meaning each fastq file pairs (R1 and R2) represent sequences from ONE sample type.
 
 [Link to the main QIIME 2 website](https://docs.qiime2.org/2017.12/) (for more tutorials and detailed documentation of the pipeline).
 
