@@ -27,7 +27,7 @@ Here is a list of files you must have in order to run the QIIME 2 pipeline.
 1. **A mapping file**
 	* This is a tab-delimited file containing all the sequencing info. You can create this file in excel but it should be saved as a text version. Below is an example mapping file. The required columns are shown in **bold**. 
 	
-		![Example mapping file](https://www.dropbox.com/s/fnpjvvx3jor667y/example-mapping-file-2018.png?raw=1)
+		![Example mapping file](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/images/example-mapping-file-2018.png?raw=1)
 	
 2. **R1 fastq**
 	* This file contains reads returned by the sequencer first.  
