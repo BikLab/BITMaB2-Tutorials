@@ -46,7 +46,7 @@ Fieldwork and Lab Technicians:
 * Jamie Smith, Texas A&M University Corpus Christi
 
 ---
-##Workshop Lectures and Tutorials
+# Workshop Lectures and Tutorials
 
 **Monday January 15, 2018**
 
@@ -91,7 +91,7 @@ Fieldwork and Lab Technicians:
 
 ---
 
-##Some General Notes and Suggestions on Computational Training:
+# Some General Notes and Suggestions on Computational Training:
 
 The [Software Carpentry](https://software-carpentry.org/) and Data Carpentry organizations are a wonderful resource for learning general programming skills. They run in person bioinformatics workshps at institutes worldwide, and maintain open source lesson plans of all workshop materials. These lessons are continually updated as bioinformatics and software tools evolve (which happens frequently!)
 
