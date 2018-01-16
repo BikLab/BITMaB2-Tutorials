@@ -122,7 +122,6 @@ qiime demux emp-paired \
 
 ```
 ---
----
 
 
 ### B. Summarize and visualize the qza
@@ -160,15 +159,26 @@ qiime dada2 denoise-paired \
 
 ```
 
+If this step completed correctly, your command line prompt should notify you with the following information:
+
+```
+Saved FeatureTable[Frequency] to: table.qza
+Saved FeatureData[Sequence] to: rep-seqs.qza
+```
+
 
 ## Step 3 - Assigning Taxonomy
+
+The default QIIME2 workflow does not include a typical OTU picking step - the developers now reccomend working with "Amplicon Sequence Variants", whereby you go directly into taxonomy assignment after using dada2/deblur to quality filter your dataset.
+
+Here, we are comparing our metabarcoding sequences to the SILVA reference database to assign taxonomy based on pairwise identity of rRNA seqeunces.
 
 ### A. Import reference data files as Qiime Zipped Artifacts (.qza)
 
 ```
 qiime tools import \
 --type FeatureData[Sequence] \
---input-path /usr/local/share/SILVA_databases/SILVA_128_QIIME_release/rep_set/rep_set_18S_only/99/99_otus_18S.fasta \
+--input-path /home/BITMaB2018/your-username/qiime/Silva-119-repset99-18S.fna \
 --output-path 99_otus_18S
 
 ```
@@ -176,7 +186,7 @@ qiime tools import \
 ```
 qiime tools import \
 --type FeatureData[Taxonomy] \
---input-path /usr/local/share/SILVA_databases/SILVA_128_QIIME_release/taxonomy/18S_only/99/consensus_taxonomy_all_levels.txt \
+--input-path /home/BITMaB2018/your-username/qiime/taxonomy-99-7-levels-consensus.txt \
 --source-format HeaderlessTSVTaxonomyFormat \
 --output-path consensus_taxonomy_all_levels
 
@@ -194,10 +204,24 @@ qiime feature-classifier classify-consensus-blast \
 --p-maxaccepts 1
 
 ```
+Change the filename on your table to "unfiltered" so we can keep track of the original qiime output.
+
 ```
 mv table.qza unfiltered-table.qza
 
 ```
+
+QIIME2 has a number of different options for classifying your sequences. For simplicity (and familiarity) we are using BLAST, but other options offer more sophisticated algorithmic methods for taxonomy assignment:
+
+```
+classify-consensus-blast    BLAST+ consensus taxonomy classifier
+classify-consensus-vsearch  VSEARCH consensus taxonomy classifier
+classify-sklearn            Pre-fitted sklearn-based taxonomy classifier
+extract-reads               Extract reads from reference
+fit-classifier-naive-bayes  Train the naive_bayes classifier
+fit-classifier-sklearn      Train an almost arbitrary scikit-learn
+                              classifier
+```                              
 
 ### C. Filter the Feature Table to contain only metazoa OTUs.
 
