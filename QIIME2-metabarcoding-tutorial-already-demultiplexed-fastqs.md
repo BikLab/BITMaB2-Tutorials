@@ -134,6 +134,9 @@ qiime demux summarize \
 ```
 * Here, you must copy over the `.qzv` output to your computer, and open `demux.qzv` in [www.view.qiime2.org](https://view.qiime2.org/)
 
+![qiime2 demux summary](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/images/qiime2-demux.png?raw=1)
+
+
 ## Step 2 - Quality controlling sequences and building Feature Table and Feature Data 
 
 * QIIME 2 has plugins for various quality control methods such as [DADA2](https://benjjneb.github.io/dada2/tutorial.html) and [Deblur](https://github.com/biocore/deblur). The result of both of these methods will be a `FeatureTable[Frequency]` QIIME 2 artifact containing counts (frequencies) of each unique sequence in each sample in the dataset, and a `FeatureData[Sequence]` QIIME 2 artifact, which maps feature identifiers in the FeatureTable to the sequences they represent. We will use DADA2 in this tutorial. The `FeatureTable[Frequency]` and  `FeatureData[Sequence]` are analogous to QIIME 1's Biom table and rep_set fasta file, respectively.
