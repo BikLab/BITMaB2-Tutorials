@@ -200,6 +200,22 @@ Taxonomy assignment can be done using either SILVA's "consensus" or "majority" t
 
 For eukaryotic 18S data - especially for meiofaunal groups where the databases are pretty sparse - we recommend using the `majority_taxonomy_7_levels.txt` taxonomy mapping file, since it does a better job of incorporating "environmental" rRNA sequences and the seven levels have been manually curated to better reflect the known phylogenetic classifications of diverse eukarytoic groups.
 
+Here is complete explanation of the taxonomy differences from the SILVA database curators:
+
+```
+Taxonomy strings that are either consensus (all taxa strings must match for every read that fell into the cluster) or majority (greater than or equal to 90% of the taxonomy strings for a given cluster). If a taxonomy string fails to be consensus or majority, then it becomes ambiguous, moving up the levels of taxonomy until consensus/majority taxonomy strings are met.
+
+For example, if a cluster had two reads, and one taxonomy string was:
+D_0__Archaea;D_1__Euryarchaeota;D_2__Methanobacteria;D_3__Methanobacteriales;D_4__Methanobacteriaceae;D_5__Methanobrevibacter;D_6__Methanobrevibacter sp. HW3
+and the second taxonomy string was:
+D_0__Archaea;D_1__Euryarchaeota;D_2__Methanobacteria;D_3__Methanobacteriales;D_4__Methanobacteriaceae;D_5__Methanobrevibacter;D_6__Methanobrevibacter smithii
+
+Then for either consensus or majority strings, the level 7 (0 is the first level, the domain) data would become ambiguous, as the species levels do not match. The above string for the representative sequence taxonomy mapping file becomes:
+D_0__Archaea;D_1__Euryarchaeota;D_2__Methanobacteria;D_3__Methanobacteriales;D_4__Methanobacteriaceae;D_5__Methanobrevibacter;Ambiguous_taxa
+
+Because the taxonomy strings are not perfectly matched in terms of names/depths across all  of the SILVA data, this can lead to some taxonomies being more ambiguous with my approach (exact string matches) than they actually are, particularly for the eukaryotes. There are over 1.5 million taxonomy strings in the non-redundant SILVA 119 release (even more in later releases), so I can't fault the maintainers of SILVA for these taxonomy strings being imperfect from a parsing/bioinformatics perspective.
+```
+
 
 ### B. Classify query sequences using Blast
 
