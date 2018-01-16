@@ -134,7 +134,7 @@ qiime demux summarize \
 ```
 * Here, you must copy over the `.qzv` output to your computer, and open `demux.qzv` in [www.view.qiime2.org](https://view.qiime2.org/)
 
-![qiime2 demux summary](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/images/qiime2-demux.png?raw=1)
+![qiime2 demux summary](images/qiime2-demux.png?raw=1)
 
 
 ## Step 2 - Quality controlling sequences and building Feature Table and Feature Data 
