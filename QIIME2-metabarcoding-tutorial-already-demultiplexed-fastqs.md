@@ -175,10 +175,14 @@ Here, we are comparing our metabarcoding sequences to the SILVA reference databa
 
 ### A. Import reference data files as Qiime Zipped Artifacts (.qza)
 
+We are using the manually curated SILVA database to assign taxonomy to unkonwn (eukaryotic) 18S rRNA sequences. 
+
+The databases have been pre-downloaded onto the server from the the ARB-SILVA website: https://www.arb-silva.de/download/archive/qiime 
+
 ```
 qiime tools import \
 --type FeatureData[Sequence] \
---input-path /home/BITMaB2018/your-username/qiime/Silva-119-repset99-18S.fna \
+--input-path /usr/local/share/SILVA_databases/SILVA_128_QIIME_release/rep_set/rep_set_18S_only/99/99_otus_18S.fasta \
 --output-path 99_otus_18S
 
 ```
@@ -186,21 +190,30 @@ qiime tools import \
 ```
 qiime tools import \
 --type FeatureData[Taxonomy] \
---input-path /home/BITMaB2018/your-username/qiime/taxonomy-99-7-levels-consensus.txt \
+--input-path /usr/local/share/SILVA_databases/SILVA_128_QIIME_release/taxonomy/18S_only/99/majority_taxonomy_7_levels.txt \
 --source-format HeaderlessTSVTaxonomyFormat \
---output-path consensus_taxonomy_all_levels
+--output-path majority_taxonomy_7_levels
 
 ```
 
+Taxonomy assignment can be done using either SILVA's "consensus" or "majority" taxonomy mapping files - we STRONGLY reccomend you read the SILVA release notes to understand the differences in how these have been constructed: https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_128_notes.txt
+
+For eukaryotic 18S data - especially for meiofaunal groups where the databases are pretty sparse - we recommend using the `majority_taxonomy_7_levels.txt` taxonomy mapping file, since it does a better job of incorporating "environmental" rRNA sequences and the seven levels have been manually curated to better reflect the known phylogenetic classifications of diverse eukarytoic groups.
+
+
 ### B. Classify query sequences using Blast
+
+Here we are using BLAST to assign taxonomy to environmental rRNA sequences, using a 90% pairwise identity cutoff against the curated SILVA database (so any rRNA OTUs with <90% identity will come back with a taxonomic string as "unassigned"). 
+
+
 
 ```
 qiime feature-classifier classify-consensus-blast \
 --i-query rep-seqs.qza \
---i-reference-taxonomy consensus_taxonomy_all_levels.qza \
+--i-reference-taxonomy majority_taxonomy_7_levels.qza \
 --i-reference-reads 99_otus_18S.qza \
 --o-classification taxonomy \
---p-perc-identity 0.97 \
+--p-perc-identity 0.90 \
 --p-maxaccepts 1
 
 ```
@@ -223,7 +236,7 @@ fit-classifier-sklearn      Train an almost arbitrary scikit-learn
                               classifier
 ```                              
 
-### C. Filter the Feature Table to contain only metazoa OTUs.
+### C. Filter the Feature Table to contain only metazoa OTUs
 
 ```
 qiime taxa filter-table \
@@ -297,6 +310,34 @@ qiime diversity alpha-rarefaction \
 
 #### B. Compute several alpha and beta diversity metrics and plot PCoAs using Emperor
 
+Script to generate taxonomy bar charts:
+
+First do this for the unfiltered data, and view the `.qzv` output in the QIIME2 viewer [www.view.qiime2.org](https://view.qiime2.org/)
+
+```
+qiime taxa barplot \
+--i-table unfiltered-table.qza \
+--i-taxonomy taxonomy.qza \
+--m-metadata-file mapping_file_panama_MAY_2017.tsv \
+--o-visualization taxa-bar-plots.qzv
+```
+
+Now generate the same taxonmy plots for the filtered (Metazoa-only) 18S dataset, and visualize this file as well:
+
+```
+qiime taxa barplot \
+--i-table table.qza \
+--i-taxonomy taxonomy.qza \
+--m-metadata-file mapping_file_panama_MAY_2017.tsv \
+--o-visualization taxa-bar-plots.qzv
+```
+
+> ### What are the differences in alpha diversity between the filtered and untiltered Feature Tables?
+
+
+Beta Diversity Core Analyses (runs a whole bunch of metrics at once):
+
+
 ```
 qiime diversity core-metrics-phylogenetic \
 --i-phylogeny rooted-tree.qza \
@@ -368,15 +409,6 @@ qiime emperor plot \
 qiime metadata tabulate \
 --m-input-file taxonomy.qza \
 --o-visualization taxonomy.qzv
-```
-Script to generate taxonomy bar charts:
-
-```
-qiime taxa barplot \
---i-table table.qza \
---i-taxonomy taxonomy.qza \
---m-metadata-file mapping_file_panama_MAY_2017.tsv \
---o-visualization taxa-bar-plots.qzv
 ```
 
 * View the `.qzv` outputs in [www.view.qiime2.org](https://view.qiime2.org/).
