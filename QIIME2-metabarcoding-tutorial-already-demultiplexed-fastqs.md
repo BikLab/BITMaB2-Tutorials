@@ -149,10 +149,10 @@ qiime demux summarize \
 ```
 qiime dada2 denoise-paired \
 --i-demultiplexed-seqs demux-paired-end.qza \
---p-trim-left-f m1 \
---p-trim-left-r m2 \
---p-trunc-len-f n1 \
---p-trunc-len-r n2 \
+--p-trim-left-f VALUE \
+--p-trim-left-r VALUE \
+--p-trunc-len-f VALUE \
+--p-trunc-len-r VALUE \
 --p-n-threads 12 \
 --o-representative-sequences rep-seqs.qza \
 --o-table table.qza
@@ -276,19 +276,24 @@ qiime phylogeny midpoint-root --i-tree unrooted-tree.qza --o-rooted-tree rooted-
 
 #### A. Assess alpha rarefaction
 
+Here you must make a decision about the rarefaction values you will use to carry out ecological diversity analyses on your dataset - this is dependent on the sequencing depth you observe across all your samples (e.g. the minimum value will throw out any samples with a sequencing depth below that threshold).
+
+> ### View the `table.qzv` QIIME 2 artifact, and in particular the Interactive Sample Detail tab in that visualization. What value would you choose to pass for `--p-sampling-depth` below? How many samples will be excluded from your analysis based on this choice? How many total sequences will you be analyzing in the core-metrics-phylogenetic command? 
+
+In the below script, replace `MINIMUM` and `MAXIMUM` with the values you choose to use for rarefaction.
+
 ```
 qiime diversity alpha-rarefaction \
--i-table table.qza \
+--i-table table.qza \
 --i-phylogeny rooted-tree.qza \
---p-min-depth 500 \
---p-max-depth 6018 \
+--p-min-depth MINIMUM \
+--p-max-depth MAXIMUM \
 --m-metadata-file mapping_file_panama_MAY_2017.tsv \
 --o-visualization alpha-rarefaction.qzv
 ```
 
 * Here, you must copy over the `.qzv` output to your computer, and open it in [www.view.qiime2.org](https://view.qiime2.org/)
 
-> ### View the `table.qzv` QIIME 2 artifact, and in particular the Interactive Sample Detail tab in that visualization. What value would you choose to pass for `--p-sampling-depth` below? How many samples will be excluded from your analysis based on this choice? How many total sequences will you be analyzing in the core-metrics-phylogenetic command? 
 
 #### B. Compute several alpha and beta diversity metrics and plot PCoAs using Emperor
 
@@ -296,7 +301,7 @@ qiime diversity alpha-rarefaction \
 qiime diversity core-metrics-phylogenetic \
 --i-phylogeny rooted-tree.qza \
 --i-table table.qza \
---p-sampling-depth n \
+--p-sampling-depth VALUE \
 --m-metadata-file mapping_file_panama_MAY_2017.tsv \
 --output-dir core-metrics-results
 ```
@@ -319,9 +324,6 @@ qiime diversity alpha-group-significance \
 
 > ### What discrete sample metadata categories are most strongly associated with the differences in microbial community richness? Are these differences statistically significant? 
  
-
-> ### What discrete sample metadata categories are most strongly associated with the differences in microbial community evenness? Are these differences statistically significant?
-
 
 ```
 qiime diversity alpha-correlation \
@@ -367,6 +369,8 @@ qiime metadata tabulate \
 --m-input-file taxonomy.qza \
 --o-visualization taxonomy.qzv
 ```
+Script to generate taxonomy bar charts:
+
 ```
 qiime taxa barplot \
 --i-table table.qza \
