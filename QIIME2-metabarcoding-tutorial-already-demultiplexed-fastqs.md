@@ -56,17 +56,17 @@ QIIME 2 supports various data formats for sequences files and BIOM tables, howev
 
 Here is an overview of the general steps of the QIIME pipeline for already demultiplexed reads that we will carry out during the BITMaB workshop (click links to jump to detailed instructions for each step):
 
-#### [Step 1](): Importing data, summarize the results, and examing quality of the reads
+#### [Step 1](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/QIIME2-metabarcoding-tutorial-already-demultiplexed-fastqs.md#step-1---importing-data-summarize-the-results-and-examing-quality-of-the-reads): Importing data, summarize the results, and examing quality of the reads
 
-#### [Step 2](): Quality controlling sequences and building Feature Table and Feature Data
+#### [Step 2](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/QIIME2-metabarcoding-tutorial-already-demultiplexed-fastqs.md#step-2---quality-controlling-sequences-and-building-feature-table-and-feature-data): Quality controlling sequences and building Feature Table and Feature Data
 
-#### [Step 3](): Assigning Taxonomy
+#### [Step 3](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/QIIME2-metabarcoding-tutorial-already-demultiplexed-fastqs.md#step-3---assigning-taxonomy): Assigning Taxonomy
 
-#### [Step 4](): Summarizing Feature Table and Feature Data
+#### [Step 4](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/QIIME2-metabarcoding-tutorial-already-demultiplexed-fastqs.md#step-4---summarizing-feature-table-and-feature-data): Summarizing Feature Table and Feature Data
 
-#### [Step 5](): Generating a phylogenetic tree
+#### [Step 5](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/QIIME2-metabarcoding-tutorial-already-demultiplexed-fastqs.md#step-5---generating-a-phylogenetic-tree): Generating a phylogenetic tree
 
-#### [Step 6](): Analyzing Alpha and Beta diversities
+#### [Step 6](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/QIIME2-metabarcoding-tutorial-already-demultiplexed-fastqs.md#step-6---analyzing-alpha-and-beta-diversities): Analyzing Alpha and Beta diversities
 
 
 ---
