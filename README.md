@@ -68,15 +68,15 @@ Fieldwork and Lab Technicians:
 **Wednesday January 17, 2018**
 
 * Introduction to the QIIME2 pipeline for microbial ecology and metabarcoding data analysis (Dr. Holly Bik)
-	* [QIIME2 Overview Slides](http://bit.ly/q2-vegas-2017) (from June 2017 QIIME2 workshop)
-	* [QIIME1 to QIIME2 script conversion cheatsheet](https://docs.google.com/spreadsheets/d/1AOyA84lGPBk5C2Uflg_pILEL75a6_gdY6SK3ltOt44E/edit#gid=0)
+	* [QIIME 2 Overview Slides](http://bit.ly/q2-vegas-2017) (from June 2017 QIIME2 workshop)
+	* [QIIME 1 to QIIME 2 script conversion cheatsheet](https://docs.google.com/spreadsheets/d/1AOyA84lGPBk5C2Uflg_pILEL75a6_gdY6SK3ltOt44E/edit#gid=0)
 	* [QIIME 2 workflow for metabarcoding analysis (18S/16S rRNA) with already-demultiplexed fastq files](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/QIIME2-metabarcoding-tutorial-already-demultiplexed-fastqs.md)
 * **Taxonomy Lecture**: [Harpacticoida](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/presentations/WonchoelLee-Copepoda-17Jan2018.pdf) (Dr. Wonchoel Lee)
 * **Taxonomy Lecture**: [Kinorhyncha & Gnathostomulida](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/presentations/MartinSorensen-Gnathostomulida-and-Kinorhyncha-15Jan2018.pdf) (Dr. Martin Sørensen)
 
 **Thursday January 18, 2018**
 
-* Data analysis and visualization in QIIME2, continued (Dr. Holly Bik)
+* Data analysis and visualization in QIIME 2, continued (Dr. Holly Bik)
 * Discussion and Q&A session about genome assembly results and data analysis
 * **Taxonomy Lecture**: [Polychaeta](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/presentations/MichaelReuscher-Polychaete-18Jan2018.pdf) (Dr. Jesús Ángel de León González or Dr. Michael Reuscher)
 * **Taxonomy Lecture**: [Oligochaeta](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/presentations/AlessandroPrantoni-Oligochaeta-18Jan2018.pdf) (Dr. Alessandro Prantoni)
