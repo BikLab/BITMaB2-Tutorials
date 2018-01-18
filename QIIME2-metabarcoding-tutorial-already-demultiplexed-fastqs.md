@@ -434,7 +434,15 @@ qiime metadata tabulate \
 
 ### Converting QIIME 2 Feature Table into a tab delimited table 
 
+<<<<<<< Updated upstream
 Follow the instructions on [this QIIME 2 forum post](https://forum.qiime2.org/t/is-there-any-way-to-summarize-taxa-plot-by-category/446) to convert your Feature Table into a tsv file.
+=======
+### Other QIIME Tutorials and resources
+
+[Loading a phylogentic tree into iTOL](https://forum.qiime2.org/t/loading-greengenes-tree-in-itol/2319/3) - instructions and and guide on how to load taxonomy metadata onto a phylogeny and view it in iTOL
+
+---
+>>>>>>> Stashed changes
 
 ### Other Options for downstream visualization and community analysis
 
