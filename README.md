@@ -56,14 +56,14 @@ Fieldwork and Lab Technicians:
 	* [QIIME2 common commands](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/bash_lesson.sh) - second part of printout
 	* BASH command cheatsheet - third part of printout
 * Advanced command line tricks
-* **Taxonomy Lecture**: Goals of the workshop and how it fits into the context of the research project “Genomic Responses to the Deepwater Horizon event and development of high-throughput biological assays for oil spills” (Dr. Francesca Leasi)
-* **Taxonomy Lecture**: Bivalvia and Gastropoda of the GoM (Dr. Fabio Moretzsohn)
+* **Taxonomy Lecture**: [Goals of the workshop and how it fits into the context of the research project “Genomic Responses to the Deepwater Horizon event and development of high-throughput biological assays for oil spills”](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/presentations/FrancescaLeasi-BiologicalAssays-15Jan2018.pdf) (Dr. Francesca Leasi)
+* **Taxonomy Lecture**: [Bivalvia and Gastropoda of the GoM](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/presentations/FabioMoretzsohn-Bivalves-and-Gastropods-15Jan2018.pdf) (Dr. Fabio Moretzsohn)
 
 **Tuesday January 16, 2018**
 
 * [Genome assembly and annotation](https://github.com/BikLab/BITMaB2-Tutorials/tree/master/presentations/KelleyThomas-Introduction-15Jan2018.pdf) (Kelley Thomas)
-* **Taxonomy Lecture**: Nematoda - ecology and species diversity (Dr. Alberto de Jesús Navarrete)
-* **Taxonomy Lecture**: Nematoda - molecular phylogeny and metabarcoding (Dr. Tiago Pereira)
+* **Taxonomy Lecture**: [Nematoda - ecology and species diversity](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/presentations/AlbertodeJes%C3%BAsNavarrete-Nematoda-16Jan2018.pdf) (Dr. Alberto de Jesús Navarrete)
+* **Taxonomy Lecture**: [Nematoda - molecular phylogeny and metabarcoding](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/presentations/TiagoPereira-Nematoda-16Jan2018.pdf) (Dr. Tiago Pereira)
 
 **Wednesday January 17, 2018**
 
@@ -71,23 +71,23 @@ Fieldwork and Lab Technicians:
 	* [QIIME2 Overview Slides](http://bit.ly/q2-vegas-2017) (from June 2017 QIIME2 workshop)
 	* [QIIME1 to QIIME2 script conversion cheatsheet](https://docs.google.com/spreadsheets/d/1AOyA84lGPBk5C2Uflg_pILEL75a6_gdY6SK3ltOt44E/edit#gid=0)
 	* [QIIME 2 workflow for metabarcoding analysis (18S/16S rRNA) with already-demultiplexed fastq files](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/QIIME2-metabarcoding-tutorial-already-demultiplexed-fastqs.md)
-* **Taxonomy Lecture**: Harpacticoida (Dr. Wonchoel Lee)
-* **Taxonomy Lecture**: Kinorhyncha & Gnathostomulida (Dr. Martin Sørensen)
+* **Taxonomy Lecture**: [Harpacticoida](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/presentations/WonchoelLee-Copepoda-17Jan2018.pdf) (Dr. Wonchoel Lee)
+* **Taxonomy Lecture**: [Kinorhyncha & Gnathostomulida](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/presentations/MartinSorensen-Gnathostomulida-and-Kinorhyncha-15Jan2018.pdf) (Dr. Martin Sørensen)
 
 **Thursday January 18, 2018**
 
 * Data analysis and visualization in QIIME2, continued (Dr. Holly Bik)
 * Discussion and Q&A session about genome assembly results and data analysis
-* **Taxonomy Lecture**: Polychaeta (Dr. Jesús Ángel de León González or Dr. Michael Reuscher)
-* **Taxonomy Lecture**: Oligochaeta (Dr. Alessandro Prantoni)
+* **Taxonomy Lecture**: [Polychaeta](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/presentations/MichaelReuscher-Polychaete-18Jan2018.pdf) (Dr. Jesús Ángel de León González or Dr. Michael Reuscher)
+* **Taxonomy Lecture**: [Oligochaeta](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/presentations/AlessandroPrantoni-Oligochaeta-18Jan2018.pdf) (Dr. Alessandro Prantoni)
 
 **Friday January 19, 2018**
 
 * Mapping DNA sequence reads to reference genomes to investigate genetic diversity or profiling gene expression (Dr. Kelley Thomas, Devin Thomas, and Joe Sevigny)
 * Genome visualizations using the UCSC Genome Browser (Dr. Kelley Thomas, Devin Thomas, and Joe Sevigny)
 * Introduction to Whole Metagenome Shotgun Analysis -  principles, data sets, methods, and introduction to PALADIN (Drs. Kelley Thomas and Holly Bik)
-* **Taxonomy Lecture**: Cumacea and Tanaidacea, with emphasis on shallow water (Dr. Richard Heard)
-* **Taxonomy Lecture**: Cumacea and Tanaidacea, with emphasis on deep-sea (Dr. Adelaide Rhodes)
+* **Taxonomy Lecture**: [Cumacea and Tanaidacea, with emphasis on shallow water]() (Dr. Richard Heard)
+* **Taxonomy Lecture**: [Cumacea and Tanaidacea, with emphasis on deep-sea]() (Dr. Adelaide Rhodes)
 
 ---
 
