@@ -87,7 +87,7 @@ Fieldwork and Lab Technicians:
 * Genome visualizations using the UCSC Genome Browser (Dr. Kelley Thomas, Devin Thomas, and Joe Sevigny)
 * Introduction to Whole Metagenome Shotgun Analysis -  principles, data sets, methods, and introduction to PALADIN (Drs. Kelley Thomas and Holly Bik)
 * **Taxonomy Lecture**: [Cumacea and Tanaidacea, with emphasis on shallow water]() (Dr. Richard Heard)
-* **Taxonomy Lecture**: [Cumacea and Tanaidacea, with emphasis on deep-sea]() (Dr. Adelaide Rhodes)
+* **Taxonomy Lecture**: [Cumacea and Tanaidacea, with emphasis on deep-sea](https://github.com/BikLab/BITMaB2-Tutorials/blob/master/presentations/AdelaideRhodes-Tanaids-19Jan2018.pdf) (Dr. Adelaide Rhodes)
 
 ---
 
